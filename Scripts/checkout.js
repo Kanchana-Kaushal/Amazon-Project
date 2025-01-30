@@ -1,4 +1,4 @@
-import { cart } from "../data/cart.js";
+import { cart, removeCartItems } from "../data/cart.js";
 import { products } from "../data/products.js";
 import { formatCurrency } from "../utilities/utilities.js";
 
@@ -44,7 +44,8 @@ cart.forEach((cartItem) => {
                                         Update
                                     </span>
                                     <span
-                                        class="delete-quantity-link link-primary"
+                                        class="delete-quantity-link link-primary js-delete-link"
+                                        data-product-id = "${matchingItem.id}"
                                     >
                                         Delete
                                     </span>
@@ -113,3 +114,16 @@ cart.forEach((cartItem) => {
 });
 
 document.querySelector(".js-order-summery ").innerHTML = cartSummeryHTML;
+
+/*Delete Button*/
+document.querySelectorAll(".js-delete-link").forEach((elem) => {
+    elem.addEventListener("click", () => {
+        const elemProductId = elem.dataset.productId;
+        cart.forEach((cartItem) => {
+            if (elemProductId === cartItem.productID) {
+                removeCartItems(elemProductId);
+                console.log(cart);
+            }
+        });
+    });
+});
