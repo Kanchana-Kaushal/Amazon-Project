@@ -13,7 +13,9 @@ cart.forEach((cartItem) => {
         }
     });
 
-    cartSummeryHTML += `<div class="cart-item-container">
+    cartSummeryHTML += `<div class="cart-item-container js-cart-item-container-${
+        matchingItem.id
+    }">
                         <div class="delivery-date">
                             Delivery date: Tuesday, June 21
                         </div>
@@ -122,7 +124,10 @@ document.querySelectorAll(".js-delete-link").forEach((elem) => {
         cart.forEach((cartItem) => {
             if (elemProductId === cartItem.productID) {
                 removeCartItems(elemProductId);
-                console.log(cart);
+                const itemContainer = document.querySelector(
+                    `.js-cart-item-container-${elemProductId}`
+                );
+                itemContainer.remove();
             }
         });
     });
