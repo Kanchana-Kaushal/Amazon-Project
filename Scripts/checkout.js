@@ -1,7 +1,8 @@
-import { cart, removeCartItems } from "../data/cart.js";
+import { cart, removeCartItems, getCartQuantity } from "../data/cart.js";
 import { products } from "../data/products.js";
 import { formatCurrency } from "../utilities/utilities.js";
 
+updateCheckoutCount();
 let cartSummeryHTML = "";
 
 cart.forEach((cartItem) => {
@@ -117,6 +118,13 @@ cart.forEach((cartItem) => {
 
 document.querySelector(".js-order-summery ").innerHTML = cartSummeryHTML;
 
+/*update checkout count */
+function updateCheckoutCount() {
+    document.querySelector(
+        ".js-checkout-count"
+    ).innerText = `${getCartQuantity()} items`;
+}
+
 /*Delete Button*/
 document.querySelectorAll(".js-delete-link").forEach((elem) => {
     elem.addEventListener("click", () => {
@@ -128,6 +136,7 @@ document.querySelectorAll(".js-delete-link").forEach((elem) => {
                     `.js-cart-item-container-${elemProductId}`
                 );
                 itemContainer.remove();
+                updateCheckoutCount();
             }
         });
     });

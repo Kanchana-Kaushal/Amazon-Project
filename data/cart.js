@@ -53,3 +53,12 @@ export function removeCartItems(productId) {
 
     saveCartLocal();
 }
+
+export function getCartQuantity() {
+    let cartQuantity = 0;
+    cart.forEach((cartItem) => {
+        cartQuantity += cartItem.quantity;
+    });
+
+    return cartQuantity;
+}
