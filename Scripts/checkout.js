@@ -1,4 +1,9 @@
-import { cart, removeCartItems, getCartQuantity } from "../data/cart.js";
+import {
+    cart,
+    removeCartItems,
+    getCartQuantity,
+    updateCartQuantity,
+} from "../data/cart.js";
 import { products } from "../data/products.js";
 import { formatCurrency } from "../utilities/utilities.js";
 
@@ -37,15 +42,31 @@ cart.forEach((cartItem) => {
                                 <div class="product-quantity">
                                     <span>
                                         Quantity:
-                                        <span class="quantity-label">${
-                                            cartItem.quantity
-                                        }</span>
+                                        <span class="quantity-label js-quantity-label-${
+                                            matchingItem.id
+                                        }">${cartItem.quantity}</span>
                                     </span>
                                     <span
-                                        class="update-quantity-link link-primary"
+                                        class="update-quantity-link link-primary js-update-quantity js-edit-quantity-${
+                                            matchingItem.id
+                                        } "
+                                        data-product-id = "${matchingItem.id}"
                                     >
                                         Update
                                     </span>
+
+                                    <input class="quantity-input js-edit-quantity-${
+                                        matchingItem.id
+                                    } is-editing-quantity js-quantity-input-${
+        matchingItem.id
+    }">
+                                    <span class="save-quantity-link link-primary js-edit-quantity-${
+                                        matchingItem.id
+                                    } is-editing-quantity js-save-quantity-link" 
+                                    data-product-id = "${
+                                        matchingItem.id
+                                    }">Save</span>
+
                                     <span
                                         class="delete-quantity-link link-primary js-delete-link"
                                         data-product-id = "${matchingItem.id}"
@@ -139,5 +160,46 @@ document.querySelectorAll(".js-delete-link").forEach((elem) => {
                 updateCheckoutCount();
             }
         });
+    });
+});
+
+/*Update Quantity Button */
+document.querySelectorAll(".js-update-quantity").forEach((elem) => {
+    elem.addEventListener("click", () => {
+        const productId = elem.dataset.productId;
+        document
+            .querySelectorAll(`.js-edit-quantity-${productId}`)
+            .forEach((elem) => {
+                elem.classList.toggle("is-editing-quantity");
+            });
+    });
+});
+
+/*save quantity btn*/
+document.querySelectorAll(".js-save-quantity-link").forEach((elem) => {
+    elem.addEventListener("click", () => {
+        const productId = elem.dataset.productId;
+
+        let inputQuantity = Number(
+            document.querySelector(`.js-quantity-input-${productId}`).value
+        );
+
+        if (!isNaN(inputQuantity)) {
+            if (inputQuantity > 0) {
+                document
+                    .querySelectorAll(`.js-edit-quantity-${productId}`)
+                    .forEach((elem) => {
+                        elem.classList.toggle("is-editing-quantity");
+                    });
+
+                updateCartQuantity(productId, inputQuantity);
+
+                document.querySelector(
+                    `.js-quantity-label-${productId}`
+                ).innerHTML = inputQuantity;
+
+                updateCheckoutCount();
+            }
+        }
     });
 });

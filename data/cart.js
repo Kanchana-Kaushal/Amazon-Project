@@ -62,3 +62,12 @@ export function getCartQuantity() {
 
     return cartQuantity;
 }
+
+export function updateCartQuantity(productId, quantity) {
+    cart.forEach((cartItem) => {
+        if (cartItem.productID === productId) {
+            cartItem.quantity = quantity;
+            saveCartLocal();
+        }
+    });
+}
