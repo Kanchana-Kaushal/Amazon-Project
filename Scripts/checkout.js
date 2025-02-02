@@ -6,6 +6,7 @@ import {
 } from "../data/cart.js";
 import { products } from "../data/products.js";
 import { formatCurrency } from "../utilities/utilities.js";
+import dayjs from "https://unpkg.com/dayjs@1.11.13/esm/index.js";
 
 updateCheckoutCount();
 let cartSummeryHTML = "";
@@ -55,11 +56,13 @@ cart.forEach((cartItem) => {
                                         Update
                                     </span>
 
-                                    <input class="quantity-input js-edit-quantity-${
+                                    <input data-product-id = "${
                                         matchingItem.id
-                                    } is-editing-quantity js-quantity-input-${
+                                    }" class="quantity-input js-edit-quantity-${
         matchingItem.id
-    }">
+    } is-editing-quantity js-quantity-input-${
+        matchingItem.id
+    } js-quantity-input">
                                     <span class="save-quantity-link link-primary js-edit-quantity-${
                                         matchingItem.id
                                     } is-editing-quantity js-save-quantity-link" 
@@ -139,13 +142,6 @@ cart.forEach((cartItem) => {
 
 document.querySelector(".js-order-summery ").innerHTML = cartSummeryHTML;
 
-/*update checkout count */
-function updateCheckoutCount() {
-    document.querySelector(
-        ".js-checkout-count"
-    ).innerText = `${getCartQuantity()} items`;
-}
-
 /*Delete Button*/
 document.querySelectorAll(".js-delete-link").forEach((elem) => {
     elem.addEventListener("click", () => {
@@ -180,26 +176,50 @@ document.querySelectorAll(".js-save-quantity-link").forEach((elem) => {
     elem.addEventListener("click", () => {
         const productId = elem.dataset.productId;
 
-        let inputQuantity = Number(
-            document.querySelector(`.js-quantity-input-${productId}`).value
-        );
+        saveQuantity(productId);
+    });
+});
 
-        if (!isNaN(inputQuantity)) {
-            if (inputQuantity > 0) {
-                document
-                    .querySelectorAll(`.js-edit-quantity-${productId}`)
-                    .forEach((elem) => {
-                        elem.classList.toggle("is-editing-quantity");
-                    });
+/*On key press event for save quantity */
+document.querySelectorAll(".js-quantity-input").forEach((elem) => {
+    elem.addEventListener("keypress", (keyEvent) => {
+        const productId = elem.dataset.productId;
 
-                updateCartQuantity(productId, inputQuantity);
-
-                document.querySelector(
-                    `.js-quantity-label-${productId}`
-                ).innerHTML = inputQuantity;
-
-                updateCheckoutCount();
-            }
+        if (keyEvent.key === "Enter") {
+            saveQuantity(productId);
         }
     });
 });
+
+/*update checkout count */
+function updateCheckoutCount() {
+    document.querySelector(
+        ".js-checkout-count"
+    ).innerText = `${getCartQuantity()} items`;
+}
+
+/*Save Quantity Function*/
+function saveQuantity(productId) {
+    let inputQuantity = Number(
+        document.querySelector(`.js-quantity-input-${productId}`).value
+    );
+
+    if (!isNaN(inputQuantity)) {
+        //Check if the number is NaN, if not proceed.
+        if (inputQuantity > 0) {
+            document
+                .querySelectorAll(`.js-edit-quantity-${productId}`)
+                .forEach((elem) => {
+                    elem.classList.toggle("is-editing-quantity");
+                });
+
+            updateCartQuantity(productId, inputQuantity);
+
+            document.querySelector(
+                `.js-quantity-label-${productId}`
+            ).innerHTML = inputQuantity;
+
+            updateCheckoutCount();
+        }
+    }
+}
