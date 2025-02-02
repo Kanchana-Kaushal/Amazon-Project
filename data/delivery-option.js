@@ -1,4 +1,4 @@
-const deliveryOption = [
+export const deliveryOption = [
     {
         id: 1,
         deliverydays: 7,
@@ -15,3 +15,5 @@ const deliveryOption = [
         priceCents: 999,
     },
 ];
+
+export default deliveryOption;
