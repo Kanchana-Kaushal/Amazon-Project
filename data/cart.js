@@ -3,13 +3,13 @@ export let cart = JSON.parse(localStorage.getItem("cart"));
 if (!cart) {
     cart = [
         {
-            productID: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
+            productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
             quantity: 2,
             deliveryOptionId: 1,
         },
 
         {
-            productID: "83d4ca15-0f35-48f5-b7a3-1ea210004f2e",
+            productId: "83d4ca15-0f35-48f5-b7a3-1ea210004f2e",
             quantity: 3,
             deliveryOptionId: 2,
         },
@@ -22,10 +22,10 @@ function saveCartLocal() {
     localStorage.setItem("cart", JSON.stringify(cart));
 }
 
-export function addToCart(productID) {
+export function addToCart(productId) {
     let existingItem;
     cart.forEach((cartItem) => {
-        if (cartItem.productID === productID) {
+        if (cartItem.productId === productId) {
             existingItem = cartItem;
         }
     });
@@ -34,7 +34,7 @@ export function addToCart(productID) {
         existingItem.quantity++;
     } else {
         cart.push({
-            productID: productID,
+            productId: productId,
             quantity: 1,
             deliveryOptionId: 1,
         });
@@ -47,7 +47,7 @@ export function removeCartItems(productId) {
     const newCart = [];
 
     cart.forEach((cartItem) => {
-        if (cartItem.productID !== productId) {
+        if (cartItem.productId !== productId) {
             newCart.push(cartItem);
         }
     });
@@ -68,7 +68,7 @@ export function getCartQuantity() {
 
 export function updateCartQuantity(productId, quantity) {
     cart.forEach((cartItem) => {
-        if (cartItem.productID === productId) {
+        if (cartItem.productId === productId) {
             cartItem.quantity = quantity;
             saveCartLocal();
         }
@@ -78,7 +78,7 @@ export function updateCartQuantity(productId, quantity) {
 export function updateDeliveryOption(newDeliveryOptionId, productId) {
     let matchingItem;
     cart.forEach((cartItem) => {
-        if (cartItem.productID === productId) {
+        if (cartItem.productId === productId) {
             matchingItem = cartItem;
         }
     });
