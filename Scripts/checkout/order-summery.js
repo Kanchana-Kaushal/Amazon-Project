@@ -1,6 +1,6 @@
 import { cart, getCartQuantity } from "../../data/cart.js";
 import { findDeliveryOption } from "../../data/delivery-option.js";
-import { findProduct, products } from "../../data/products.js";
+import { findProduct } from "../../data/products.js";
 import { formatCurrency } from "../../utilities/utilities.js";
 
 export function renderOrderSummery() {

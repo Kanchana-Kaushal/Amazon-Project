@@ -7,8 +7,10 @@ import {
 } from "../../data/cart.js";
 import { findProduct } from "../../data/products.js";
 import { formatCurrency } from "../../utilities/utilities.js";
-import dayjs from "https://unpkg.com/dayjs@1.11.13/esm/index.js";
-import deliveryOption from "../../data/delivery-option.js";
+import {
+    deliveryOption,
+    calculateDeliveryDate,
+} from "../../data/delivery-option.js";
 import { renderOrderSummery } from "./order-summery.js";
 
 export function renderChekoutPage() {
@@ -17,17 +19,11 @@ export function renderChekoutPage() {
 
     cart.forEach((cartItem) => {
         const matchingItem = findProduct(cartItem);
-
-        let dateString = "";
+        let dateString;
 
         deliveryOption.forEach((deliveryOption) => {
             if (deliveryOption.id === cartItem.deliveryOptionId) {
-                const today = dayjs();
-                const deliveryDays = today.add(
-                    deliveryOption.deliverydays,
-                    "d"
-                );
-                dateString = deliveryDays.format("dddd, MMMM DD");
+                dateString = calculateDeliveryDate(deliveryOption);
             }
         });
 
@@ -114,7 +110,6 @@ export function renderChekoutPage() {
                     const itemContainer = document.querySelector(
                         `.js-cart-item-container-${elemProductId}`
                     );
-                    itemContainer.remove();
                     renderChekoutPage();
                     renderOrderSummery();
                 }
@@ -192,10 +187,7 @@ export function renderChekoutPage() {
     function deliveryOptionHTML(matchingItem, cartItem) {
         let HTML = "";
         deliveryOption.forEach((deliveryOption) => {
-            const today = dayjs();
-            const deliveryDays = today.add(deliveryOption.deliverydays, "d");
-            const dateString = deliveryDays.format("dddd, MMMM DD");
-
+            const dateString = calculateDeliveryDate(deliveryOption);
             const priceCents =
                 deliveryOption.priceCents === 0
                     ? "Free"
