@@ -26,8 +26,7 @@ function Cart(localStorageKey) {
 
         saveCartLocal() {
             localStorage.setItem(
-                localStorageKey,
-                JSON.stringify(this.cartItems)
+                (localStorageKey = JSON.stringify(this.cartItems))
             );
         },
 
