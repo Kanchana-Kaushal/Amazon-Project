@@ -44,6 +44,8 @@ products.forEach((product) => {
                         </select>
                     </div>
 
+                    ${product.getSizeChartURL()}
+
                     <div class="product-spacer"></div>
 
                     <div class="added-to-cart">
