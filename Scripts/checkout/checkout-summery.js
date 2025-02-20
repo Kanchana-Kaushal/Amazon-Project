@@ -46,9 +46,8 @@ export function renderChekoutPage() {
                                 <div class="product-name">
                                     ${matchingItem.name}
                                 </div>
-                                <div class="product-price">$${formatCurrency(
-                                    matchingItem.priceCents
-                                )}</div>
+                                <div class="product-price">${matchingItem.getPrice()}
+                                </div>
                                 <div class="product-quantity">
                                     <span>
                                         Quantity:
@@ -68,10 +67,10 @@ export function renderChekoutPage() {
                                     <input data-product-id = "${
                                         matchingItem.id
                                     }" class="quantity-input js-edit-quantity-${
-            matchingItem.id
-        } is-editing-quantity js-quantity-input-${
-            matchingItem.id
-        } js-quantity-input">
+                                        matchingItem.id
+                                    } is-editing-quantity js-quantity-input-${
+                                        matchingItem.id
+                                    } js-quantity-input">
                                     <span class="save-quantity-link link-primary js-edit-quantity-${
                                         matchingItem.id
                                     } is-editing-quantity js-save-quantity-link" 
@@ -151,9 +150,8 @@ export function renderChekoutPage() {
 
     /*update checkout count */
     function updateCheckoutCount() {
-        document.querySelector(
-            ".js-checkout-count"
-        ).innerText = `${getCartQuantity()} items`;
+        document.querySelector(".js-checkout-count").innerText =
+            `${getCartQuantity()} items`;
     }
 
     /*Save Quantity Function*/
