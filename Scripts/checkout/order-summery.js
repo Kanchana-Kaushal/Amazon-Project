@@ -1,4 +1,4 @@
-import { cart, getCartQuantity } from "../../data/cart.js";
+import { cart } from "../../data/cart-class.js";
 import { findDeliveryOption } from "../../data/delivery-option.js";
 import { findProduct } from "../../data/products.js";
 import { formatCurrency } from "../../utilities/utilities.js";
@@ -7,7 +7,7 @@ export function renderOrderSummery() {
     let cartTotalPriceCents = 0;
     let totalShippingPriceCents = 0;
 
-    cart.forEach((cartItem) => {
+    cart.cartItems.forEach((cartItem) => {
         const matchingItem = findProduct(cartItem);
         cartTotalPriceCents += cartItem.quantity * matchingItem.priceCents;
 
@@ -19,12 +19,11 @@ export function renderOrderSummery() {
     const estTax = totalBeforeTax * 0.1;
     const subTotal = totalBeforeTax + estTax;
 
-    document.querySelector(
-        ".js-payment-summery"
-    ).innerHTML = `<div class="payment-summary-title">Order Summary</div>
+    document.querySelector(".js-payment-summery").innerHTML =
+        `<div class="payment-summary-title">Order Summary</div>
 
                     <div class="payment-summary-row">
-                        <div>Items (${getCartQuantity() || 0}):</div>
+                        <div>Items (${cart.getCartQuantity() || 0}):</div>
                         <div class="payment-summary-money">$${formatCurrency(
                             cartTotalPriceCents
                         )}</div>

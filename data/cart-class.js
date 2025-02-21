@@ -33,7 +33,8 @@ class Cart {
 
     saveCartLocal() {
         localStorage.setItem(
-            (this.#localStorageKey, JSON.stringify(this.cartItems))
+            this.#localStorageKey,
+            JSON.stringify(this.cartItems)
         );
     }
 
@@ -102,3 +103,5 @@ class Cart {
         this.saveCartLocal();
     }
 }
+
+export const cart = new Cart("cart");

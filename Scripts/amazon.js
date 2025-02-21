@@ -1,5 +1,5 @@
+import { cart } from "../data/cart-class.js";
 import { products } from "../data/products.js";
-import { addToCart, getCartQuantity } from "../data/cart.js";
 
 updateCartImage();
 let productsHtml = "";
@@ -44,7 +44,7 @@ products.forEach((product) => {
                         </select>
                     </div>
 
-                    ${product.getSizeChartURL()}
+                    ${product.getExtraInfoURL()}
 
                     <div class="product-spacer"></div>
 
@@ -65,7 +65,7 @@ products.forEach((product) => {
 
 function updateCartImage() {
     document.querySelector(".js-cart-quantity-icon").innerHTML =
-        getCartQuantity();
+        cart.getCartQuantity();
 }
 
 // Add to cart funtion
@@ -73,7 +73,7 @@ document.querySelectorAll(".js-add-to-cart-button").forEach((button) => {
     button.addEventListener("click", () => {
         const productId = button.dataset.productId;
 
-        addToCart(productId);
+        cart.addToCart(productId);
 
         updateCartImage();
     });

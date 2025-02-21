@@ -1,10 +1,4 @@
-import {
-    cart,
-    removeCartItems,
-    getCartQuantity,
-    updateCartQuantity,
-    updateDeliveryOption,
-} from "../../data/cart.js";
+import { cart } from "../../data/cart-class.js";
 import { findProduct } from "../../data/products.js";
 import { formatCurrency } from "../../utilities/utilities.js";
 import {
@@ -17,7 +11,7 @@ export function renderChekoutPage() {
     updateCheckoutCount();
     let cartSummeryHTML = "";
 
-    cart.forEach((cartItem) => {
+    cart.cartItems.forEach((cartItem) => {
         const matchingItem = findProduct(cartItem);
         let dateString;
 
@@ -103,9 +97,9 @@ export function renderChekoutPage() {
     document.querySelectorAll(".js-delete-link").forEach((elem) => {
         elem.addEventListener("click", () => {
             const elemProductId = elem.dataset.productId;
-            cart.forEach((cartItem) => {
+            cart.cartItems.forEach((cartItem) => {
                 if (elemProductId === cartItem.productId) {
-                    removeCartItems(elemProductId);
+                    cart.removeCartItems(elemProductId);
                     const itemContainer = document.querySelector(
                         `.js-cart-item-container-${elemProductId}`
                     );
@@ -151,7 +145,7 @@ export function renderChekoutPage() {
     /*update checkout count */
     function updateCheckoutCount() {
         document.querySelector(".js-checkout-count").innerText =
-            `${getCartQuantity()} items`;
+            `${cart.getCartQuantity()} items`;
     }
 
     /*Save Quantity Function*/
@@ -169,7 +163,7 @@ export function renderChekoutPage() {
                         elem.classList.toggle("is-editing-quantity");
                     });
 
-                updateCartQuantity(productId, inputQuantity);
+                cart.updateCartQuantity(productId, inputQuantity);
 
                 document.querySelector(
                     `.js-quantity-label-${productId}`
@@ -229,7 +223,7 @@ export function renderChekoutPage() {
             const deliveryOptionId = Number(elem.dataset.deliveryOptionId);
             const productId = elem.dataset.productId;
 
-            updateDeliveryOption(deliveryOptionId, productId);
+            cart.updateDeliveryOption(deliveryOptionId, productId);
             renderChekoutPage();
             renderOrderSummery();
         });
