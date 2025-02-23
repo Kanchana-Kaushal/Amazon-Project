@@ -1,13 +1,18 @@
 import { cart } from "../data/cart-class.js";
-import { products, loadProducts } from "../data/products.js";
+import { products, loadProductsFetch } from "../data/products.js";
 
-new Promise((resolve) => {
-    loadProducts(() => {
+loadProductsFetch().then(() => {
+    loadProductsGrid();
+});
+
+/* new Promise((resolve) => {
+    loadProductsFetch(() => {
         resolve();
     });
 }).then((value) => {
+    console.log(value)
     loadProductsGrid();
-});
+}); */
 
 // loadProducts(loadProductsGrid);
 
