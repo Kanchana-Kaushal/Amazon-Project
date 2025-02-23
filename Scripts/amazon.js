@@ -1,7 +1,15 @@
 import { cart } from "../data/cart-class.js";
 import { products, loadProducts } from "../data/products.js";
 
-loadProducts(loadProductsGrid);
+new Promise((resolve) => {
+    loadProducts(() => {
+        resolve();
+    });
+}).then((value) => {
+    loadProductsGrid();
+});
+
+// loadProducts(loadProductsGrid);
 
 function loadProductsGrid() {
     updateCartImage();
