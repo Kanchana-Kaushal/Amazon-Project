@@ -1,4 +1,3 @@
-import { cart } from "../data/cart-class.js";
 import { loadProductsFetch } from "../data/products.js";
 import { renderChekoutPage } from "./checkout/checkout-summery.js";
 import { renderOrderSummery } from "./checkout/order-summery.js";
