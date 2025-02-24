@@ -1,9 +1,17 @@
 import { cart } from "../data/cart-class.js";
 import { products, loadProductsFetch } from "../data/products.js";
 
-loadProductsFetch().then(() => {
+/* loadProductsFetch().then(() => {
     loadProductsGrid();
-});
+}); */
+
+async function loadPage() {
+    await loadProductsFetch();
+
+    loadProductsGrid();
+}
+
+loadPage();
 
 /* new Promise((resolve) => {
     loadProductsFetch(() => {
