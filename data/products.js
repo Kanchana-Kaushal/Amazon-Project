@@ -71,9 +71,7 @@ export let products = [];
 
 export async function loadProductsFetch() {
     try {
-        const response = await fetch(
-            "https:/j/supersimplebackend.dev/products"
-        );
+        const response = await fetch("https://supersimplebackend.dev/products");
         const productsData = await response.json();
 
         products = productsData.map((productDetails) => {
